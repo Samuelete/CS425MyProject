@@ -1,7 +1,5 @@
-package com.cs425.project.labs.lab9.mortgageproject.teacher;
-
+package com.cs425.project.labs.lab9.mortgageproject;
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class MortgageTest {

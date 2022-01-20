@@ -1,5 +1,4 @@
-package com.cs425.project.labs.lab9.mortgageproject.teacher;
-
+package com.cs425.project.labs.lab9.mortgageproject;
 
 public class Application {
 
