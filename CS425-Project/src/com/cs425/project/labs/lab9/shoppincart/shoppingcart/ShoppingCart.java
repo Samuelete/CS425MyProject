@@ -9,17 +9,7 @@ public class ShoppingCart {
 	static final int ONE = 1;
 	static final double ZERO = 0.0;
 
-	public void action(Product product, String action) {
-		
-		switch(action) {
-		
-			case "add" : addToCart(product); break;
-			case "remove" : removeFromCart(product); break;
-			case "print" : printCartProducts(); break;
-		}
-	}
-
-	private void printCartProducts() {
+	public void printCartProducts() {
 		System.out.println("Content of the shoppingcart:");
 		for (CartLine cartLine : cartLineList) {
 			System.out.println(cartLine.getQuantity() + " "
@@ -30,7 +20,7 @@ public class ShoppingCart {
 		System.out.println("Total price ="+getTotalPrice());
 	}
 
-	private void removeFromCart(Product product) {
+	public void removeFromCart(Product product) {
 		Iterator<CartLine> iterator = cartLineList.iterator();
 		while (iterator.hasNext()){
 			CartLine cartLine = iterator.next();
@@ -49,7 +39,7 @@ public class ShoppingCart {
 	}
 
 
-	private void addToCart(Product product) {
+	public void addToCart(Product product) {
 		for (CartLine cartLine : cartLineList) {
 			if (isProductNumberEqual(cartLine, product)) {
 				cartLine.setQuantity(cartLine.getQuantity()+ONE);
@@ -63,7 +53,7 @@ public class ShoppingCart {
 	}
 
 
-	public double getTotalPrice(){
+	private double getTotalPrice(){
 		double totalPrice = ZERO;
 		for (CartLine cartLine : cartLineList) {
 			totalPrice=totalPrice+(cartLine.getProduct().getPrice() * cartLine.getQuantity());

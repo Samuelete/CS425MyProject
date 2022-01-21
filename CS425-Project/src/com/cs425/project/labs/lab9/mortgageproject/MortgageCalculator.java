@@ -17,93 +17,93 @@ public class MortgageCalculator {
 	static final int TWO_HUNDRED_FIFTY_THOUSAND_DOLLARS = 250000;
 	static final int TWO_HUNDRED_EIGHTY_THOUSAND_DOLLARS = 280000;
 	
-	public double computeMaxMortgage(int yearOfBirt, int month, int day, double monthlyIncome, boolean married, double monthlyIncomePartner, String profession) {
-		double mortgageResult=0;
-
-		int age = calculateAge(yearOfBirt, month, day);
+	public double computeMaxMortgage(Customer customer) {
 		
-		System.out.println(age);
-
-		if (isMarried(married)) {
-			if (age >EIGHTEEN_YEARS && TWO_THOUSAND_DOLLARS<=monthlyIncome && monthlyIncome<THREE_THOUSAND_DOLLARS) {
-				mortgageResult = computeMaxMortage(ONE_HUNDRED_TWENTY_THOUSAND_DOLLARS,
-						ONE_HUNDRED_SIXTY_THOUSAND_DOLLARS,
-						TWO_HUNDRED_TWENTY_THOUSAND_DOLLARS,
-						profession);
-			}
-			if (age >EIGHTEEN_YEARS && THREE_THOUSAND_DOLLARS<=monthlyIncome && monthlyIncome<FIVE_THOUSAND_DOLLARS) {
-				mortgageResult = computeMaxMortage(ONE_HUNDRED_FOURTY_THOUSAND_DOLLARS,
-						ONE_HUNDRED_EIGHTY_THOUSAND_DOLLARS,
-						TWO_HUNDRED_FIFTY_THOUSAND_DOLLARS,
-						profession);
-			}
-			if (age >EIGHTEEN_YEARS && FIVE_THOUSAND_DOLLARS<=monthlyIncome) {
-				mortgageResult = computeMaxMortage(ONE_HUNDRED_SIXTY_THOUSAND_DOLLARS,
-						TWO_HUNDRED_TWENTY_THOUSAND_DOLLARS,
-						TWO_HUNDRED_EIGHTY_THOUSAND_DOLLARS,
-						profession);
-			}
-			if (age < EIGHTEEN_YEARS) {
-				mortgageResult = ZERO_DOLLARS;
-			}
-		}
-		else {
-			double totalIncome = monthlyIncome + monthlyIncomePartner * 0.94; 
-			if (age >EIGHTEEN_YEARS && TWO_THOUSAND_DOLLARS<=totalIncome && totalIncome<THREE_THOUSAND_DOLLARS) {
-				mortgageResult = computeMaxMortage(ONE_HUNDRED_TWENTY_THOUSAND_DOLLARS,
-						ONE_HUNDRED_SIXTY_THOUSAND_DOLLARS,
-						TWO_HUNDRED_TWENTY_THOUSAND_DOLLARS,
-						profession);
-			}
-			if (age >EIGHTEEN_YEARS && THREE_THOUSAND_DOLLARS<=totalIncome && totalIncome<FIVE_THOUSAND_DOLLARS) {
-				mortgageResult = computeMaxMortage(ONE_HUNDRED_FOURTY_THOUSAND_DOLLARS,
-						ONE_HUNDRED_EIGHTY_THOUSAND_DOLLARS,
-						TWO_HUNDRED_FIFTY_THOUSAND_DOLLARS,
-						profession);
-			}
-			if (age >EIGHTEEN_YEARS && FIVE_THOUSAND_DOLLARS<=totalIncome) {
-				mortgageResult = computeMaxMortage(ONE_HUNDRED_SIXTY_THOUSAND_DOLLARS,
-						TWO_HUNDRED_TWENTY_THOUSAND_DOLLARS,
-						TWO_HUNDRED_EIGHTY_THOUSAND_DOLLARS,
-						profession);
-			}
-			if (age < EIGHTEEN_YEARS) {
-				mortgageResult = ZERO_DOLLARS;
-			}
-
+		double totalMonthlyMortage = 0;
+		
+		if(!isAdult(customer, EIGHTEEN_YEARS)) {
+			return 0.0;
 		}
 		
-		return mortgageResult;
+		if(isMarried(customer.getMarriedStatus())) {
+			totalMonthlyMortage = computeMontlyMarriageIncome(customer);
+		}
+		return computeMortageIncome(customer, totalMonthlyMortage);
 	}
-	
-	/* The int parameters vary according the condition of the if statement where 
-	 * this method is called */
-	private double computeMaxMortage(int amountOne, int amountTwo, int amountThree, String profession) {
-		
-		double mortgageResult = ZERO_DOLLARS;
+
+	private double computeMontlyMarriageIncome(Customer customer) {
+		final double RATE = 0.94;
+		return customer.getMonthlyIncome() + customer.getMonthlyIncomePartner() * RATE;
+	}
+
+	private double computeMortageIncome(Customer customer, double monthlyIncome) {
+		if(isCostumerLowIncome(monthlyIncome)) {
+			return computeLowIncome(customer.getProfession());
+		}
+		if(isCostumerMiddleIncome(monthlyIncome)) {
+			return computeMiddleIncome(customer.getProfession());
+		}
+		if(isCostumerHighIncome(monthlyIncome)) {
+			return computeHighIncome(customer.getProfession());
+		}
+		return 0;
+	}
+
+	private double computeLowIncome(String profession) {
 		
 		switch(profession) {
-			case "Developer": mortgageResult = amountTwo; break;
-			case "Architect": mortgageResult = amountTwo; break;
-			case "Scrum master": mortgageResult = amountTwo; break;
-			case "Tester": mortgageResult = amountOne; break;
-			case "System Administrator": mortgageResult = amountOne; break;
-			case "Technical writer": mortgageResult = amountOne; break;
-			case "Department head": mortgageResult = amountThree; break;
-			case "Professor": mortgageResult = amountThree; break;
+			case "Developer" : case "Architect" : case "Scrum master" : return ONE_HUNDRED_SIXTY_THOUSAND_DOLLARS;
+			case "Tester" : case "System Administrator" : case "Technical writer" : return ONE_HUNDRED_TWENTY_THOUSAND_DOLLARS;
+			case "Deparment Head" : case "Professor" : return TWO_HUNDRED_TWENTY_THOUSAND_DOLLARS;
 		}
-		return mortgageResult;
+		return 0;
+	}
+	
+	private double computeMiddleIncome(String profession) {
+		
+		switch(profession) {
+			case "Developer" : case "Architect" : case "Scrum master" : return ONE_HUNDRED_EIGHTY_THOUSAND_DOLLARS;
+			case "Tester" : case "System Administrator" : case "Technical writer" : return ONE_HUNDRED_FOURTY_THOUSAND_DOLLARS;
+			case "Deparment Head" : case "Professor" : return TWO_HUNDRED_FIFTY_THOUSAND_DOLLARS;
+		}
+		return 0;
+	}
+	
+	private double computeHighIncome(String profession) {
+		
+		switch(profession) {
+			case "Developer" : case "Architect" : case "Scrum master" : return TWO_HUNDRED_TWENTY_THOUSAND_DOLLARS;
+			case "Tester" : case "System Administrator" : case "Technical writer" : return ONE_HUNDRED_SIXTY_THOUSAND_DOLLARS;
+			case "Deparment Head" : case "Professor" : return TWO_HUNDRED_EIGHTY_THOUSAND_DOLLARS;
+		}
+		return 0;
+	}
+	
+	private boolean isCostumerLowIncome(double monthlyIncome) {
+		return TWO_THOUSAND_DOLLARS <= monthlyIncome && monthlyIncome < THREE_THOUSAND_DOLLARS;
+	}
+	private boolean isCostumerMiddleIncome(double monthlyIncome) {
+		return THREE_THOUSAND_DOLLARS <= monthlyIncome && monthlyIncome < FIVE_THOUSAND_DOLLARS;
+	}
+	private boolean isCostumerHighIncome(double monthlyIncome) {
+		return FIVE_THOUSAND_DOLLARS <= monthlyIncome;
 	}
 
-	private boolean isMarried(boolean married) {
-		return married;
+
+	private boolean isMarried(MarriedStatus marriedStatus) {
+		return marriedStatus == MarriedStatus.MARRIED ? true : false;
 	}
 
-	private int calculateAge(int yearOfBirt, int month, int day) {
+
+	private boolean isAdult(Customer customer, int eighteenYears) {
+		return calculateAge(customer.getBirthday()) > eighteenYears;
+	}
+
+	private int calculateAge(LocalDate birthday) {
 		
 		LocalDate todayDate = LocalDate.now();                          
-		LocalDate birthdayCustomer = LocalDate.of(yearOfBirt, month, day);
-		return Period.between(birthdayCustomer, todayDate).getYears();
+		
+		return Period.between(birthday, todayDate).getYears();
 	}
 
 }

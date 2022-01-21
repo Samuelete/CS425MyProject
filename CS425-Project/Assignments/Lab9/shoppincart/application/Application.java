@@ -8,18 +8,23 @@ public class Application {
 	public static void main(String[] args) {
 		ShoppingCart cart = new ShoppingCart();
 		Product tvProduct = new Product("A123", 100.0, "TV");
-		cart.action(tvProduct,"add");
+		
+		cart.addToCart(tvProduct);
+
 		Product mp3Player = new Product("A665", 75.0, "MP3 Player");
-		cart.action(mp3Player,"add");
+		
+		cart.addToCart(mp3Player);
+		
 		Product secondMp3Player = new Product("A665", 75.0, "MP3 Player");
-		cart.action(secondMp3Player,"add");
 		
-		cart.action(null,"print");
+		cart.addToCart(secondMp3Player);
+
+		cart.printCartProducts();
 		
-		cart.action(secondMp3Player,"remove");
-		cart.action(mp3Player,"remove");
+		cart.removeFromCart(secondMp3Player);
+		cart.removeFromCart(mp3Player);
 		
-		cart.action(null,"print");
+		cart.printCartProducts();
 
 	}
 

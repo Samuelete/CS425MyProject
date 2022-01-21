@@ -1,5 +1,8 @@
 package com.cs425.project.labs.lab9.mortgageproject;
 import static org.junit.Assert.*;
+
+import java.time.LocalDate;
+
 import org.junit.Test;
 
 public class MortgageTest {
@@ -7,28 +10,36 @@ public class MortgageTest {
 	@Test
 	public void test1() {
 		MortgageCalculator mc = new MortgageCalculator();
-		double result = mc.computeMaxMortgage(1967, 5, 2, 3000, false, 0, "Architect");
+		LocalDate birthday = LocalDate.of(1967, 5, 2); 
+		Customer customer = new Customer(birthday, MarriedStatus.SINGLE, 3000, 0, "Architect");
+		double result = mc.computeMaxMortgage(customer);
 	    assertEquals(180000, result, 0.001);
 	}
 	
 	@Test
 	public void test2() {
 		MortgageCalculator mc = new MortgageCalculator();
-		double result = mc.computeMaxMortgage(2001, 5, 2, 3000, false, 0, "Architect");
+		LocalDate birthday = LocalDate.of(2001, 5, 2);  
+		Customer customer = new Customer(birthday, MarriedStatus.SINGLE, 3000, 0, "Architect");
+		double result = mc.computeMaxMortgage(customer);
 	    assertEquals(0, result, 0.001);
 	}
 	
 	@Test
 	public void test3() {
 		MortgageCalculator mc = new MortgageCalculator();
-		double result = mc.computeMaxMortgage(1977, 12, 2, 4000, true, 2000, "Developer");
+		LocalDate birthday = LocalDate.of(1977, 12, 2); 
+		Customer customer = new Customer(birthday, MarriedStatus.MARRIED, 4000, 2000, "Developer");
+		double result = mc.computeMaxMortgage(customer);
 	    assertEquals(220000, result, 0.001);
 	}
 	
 	@Test
 	public void test4() {
 		MortgageCalculator mc = new MortgageCalculator();
-		double result = mc.computeMaxMortgage(1954, 5, 12, 5500, false, 0, "Professor");
+		LocalDate birthday = LocalDate.of(1954, 5, 12);  
+		Customer customer = new Customer(birthday, MarriedStatus.MARRIED, 5500, 0, "Professor");
+		double result = mc.computeMaxMortgage(customer);
 	    assertEquals(280000, result, 0.001);
 	}
 
