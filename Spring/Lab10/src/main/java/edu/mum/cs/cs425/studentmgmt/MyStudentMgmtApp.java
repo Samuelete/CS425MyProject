@@ -55,29 +55,26 @@ public class MyStudentMgmtApp implements CommandLineRunner {
 		student2.setTranscript(transcript2);
 		s1.setTranscript(transcript3);
 		
-//		transcript1.setStudent(student1);
-//		transcript2.setStudent(student2);
-//		transcript3.setStudent(s1);
+		Classroom classroom = new Classroom("McLaughlin building", "M105");
+
+		studentService.saveStudent(student1);
+		studentService.saveStudent(student2);
+		studentService.saveStudent(s1);
 		
-//		List<Student> students = List.of(student1, student2, s1);
-		Classroom clasroom = new Classroom("McLaughlin building", "M105");
+		classroomService.saveClasstoom(classroom);
 		
-//		student1.setClassroom(clasroom);
-//		student2.setClassroom(clasroom);
-//		s1.setClassroom(clasroom);
+        Classroom cr1 = classroomService.getClassroomById(1);
+        Student s11 = studentService.getStudentById(1);
+        Student s2 = studentService.getStudentById(2);
+        Student s3 = studentService.getStudentById(3);
 		
+		s11.setClassroom(cr1);
+		s2.setClassroom(cr1);
+		s3.setClassroom(cr1);
 		
-		var savedStudent1 = studentService.saveStudent(student1);
-		var savedStudent2 = studentService.saveStudent(student2);
-		var savedStudent3 = studentService.saveStudent(s1);
-		
-		List<Student> savedStudents = List.of(savedStudent1, savedStudent2, savedStudent3);
-		
-//		transcriptService.saveTranscript(transcript1);
-//		transcriptService.saveTranscript(transcript2);
-//		transcriptService.saveTranscript(transcript3);
-		clasroom.setStudents(savedStudents);
-		classroomService.saveClasstoom(clasroom);
+		studentService.saveStudent(s11);
+		studentService.saveStudent(s2);
+		studentService.saveStudent(s3);
 		
 		System.out.println("Student App completed ... GoodBye");
 		
