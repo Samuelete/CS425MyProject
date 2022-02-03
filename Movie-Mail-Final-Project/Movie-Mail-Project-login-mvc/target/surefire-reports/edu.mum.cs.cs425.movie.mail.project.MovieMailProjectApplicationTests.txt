@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: edu.mum.cs.cs425.movie.mail.project.MovieMailProjectApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.467 s - in edu.mum.cs.cs425.movie.mail.project.MovieMailProjectApplicationTests
