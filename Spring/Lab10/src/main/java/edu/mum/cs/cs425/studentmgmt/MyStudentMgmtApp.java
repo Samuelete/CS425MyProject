@@ -1,13 +1,10 @@
 package edu.mum.cs.cs425.studentmgmt;
 
 import java.time.LocalDate;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import edu.mum.cs.cs425.studentmgmt.model.Classroom;
 import edu.mum.cs.cs425.studentmgmt.model.Student;
 import edu.mum.cs.cs425.studentmgmt.model.Transcript;
